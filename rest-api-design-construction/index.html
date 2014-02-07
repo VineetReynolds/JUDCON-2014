@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>REST API design and construction with Java EE</title>
+
+		<meta name="description" content="REST API design and construction with Java EE APIs">
+		<meta name="author" content="Vineet Reynolds">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/judcon.css" id="theme">
+        <link rel="stylesheet" href="css/custom.css">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section data-background="img/slide-bg-1.jpg">
+
+                </section>
+
+                <section data-background="img/slide-bg-2.jpg">
+					<h2>REST API design and construction with Java EE</h2>
+					<h3>Pages from my work diary</h3>
+                    <p>
+                        By <a href="https://github.com/VineetReynolds/">Vineet Reynolds L P</a> / <a href="http://twitter.com/VineetReynolds">@VineetReynolds</a>
+                    </p>
+                    <p>
+                        Senior Software Engineer
+                    </p>
+                    <p>
+                        JBoss Developer Experience, Red Hat
+                    </p>
+				</section>
+
+                <section data-background="img/slide-bg-2.jpg">
+                    <h2>About the speaker</h2>
+                    <ul>
+                        <li>
+                            Engineer in the JBoss Developer Experience team
+                        </li>
+                        <li>
+                            Currently, contributor to :
+                            <ul>
+                                <li>JBoss Forge 1.x and 2.0</li>
+                                <li>AngularJS scaffolding for JBoss Forge</li>
+                                <li>JDF quickstarts</li>
+                                <li>TicketMonster</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Others:
+                            <ul>
+                                <li>Arquillian (GlassFish, WebLogic container adapters)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h2>Agenda</h2>
+                        <ul>
+                            <li>A 10 minute guide to REST</li>
+                            <li>
+                                JPA and JAX-RS
+                                <ul>
+                                    <li>Writing a data-driven REST API with JPA and JAX-RS</li>
+                                    <li>Composite keys</li>
+                                    <li>Cyclic and bi-directional relationships</li>
+                                    <li>Lazy-fetching</li>
+                                    <li>Class hierarchies (java.sql.Date)</li>
+                                    <li>Bean Validation and error reporting</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section data-background="img/slide-bg-2.jpg">
+                    <h2>A 10 minute guide to REST</h2>
+                    <p>
+                        Note - this is really a 10 minute guide. This is not a deep-dive into <a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm">Roy Fielding's doctoral dissertation</a>.
+                    </p>
+                </section>
+                <section data-background="img/slide-bg-2.jpg">
+                    <h3>What is REST ?</h3>
+                    <ul>
+                        <li>
+                            REST = REpresentational State Transfer
+                        </li>
+                        <li>
+                            It is an architectural style.
+                        </li>
+                        <li>
+                            It describes the design of a hypermedia system (the web).
+                        </li>
+                        <li>
+                            It intends to conceptualize how a well designed Web application should behave.
+                        </li>
+                    </ul>
+                </section>
+                <section data-background="img/slide-bg-2.jpg" data-state="justifiedtext">
+                    <h3>Examples</h3>
+                    <ul class="nolist">
+                        <li>
+                            <code>GET /events</code> returns all Events.
+                        </li>
+                        <li>
+                            <code>GET /events/1</code> returns the Event with ID 1.
+                        </li>
+                        <li>
+                            <code>POST /events</code> creates a new Event.
+                        </li>
+                        <li>
+                            <code>PUT /events/1</code> updates the Event.
+                        </li>
+                        <li>
+                            <code>DELETE /events/1</code> deletes the Event.
+                        </li>
+                    </ul>
+                </section>
+                <section data-background="img/slide-bg-2.jpg" data-state="justifiedtext">
+                    <h3>Examples</h3>
+                    <ul class="nolist">
+                        <li>
+                            Assuming <code>GET /events/1</code> returns
+                            <pre>
+                                <code class="json" data-trim>
+{
+    "name" : "JUDCON",
+    "sessions" : [
+                    { "name" : "Aerogear" },
+                    { "name" : "Infinispan" },
+                    { "name" : "OpenShift" },
+                    { "name" : "WildFly" }
+                 ]
+}
+                                </code>
+                            </pre>
+                            What kind of updates can be made in a <em>PUT</em> ?
+                            <ul>
+                                <li>
+                                    Session names could be updated.
+                                </li>
+                                <li>
+                                    New Sessions could be added.
+                                </li>
+                                <li>
+                                    Existing sessions could be deleted.
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <!--
+                <section data-background="img/slide-bg-2.jpg">
+                    <h3>Examples</h3>
+                </section>
+                <section data-background="img/slide-bg-2.jpg">
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>Constraints</h3>
+                        <p>Client-Server. Separates the presentation concerns from the server.</p>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>Constraints</h3>
+                        <p>The protocol is <b>Stateless</b>. State is <em>transferred</em> between the server and the client.</p>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>Constraints</h3>
+                        <p>Cacheable responses.</p>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>Constraints</h3>
+                        Uniform interfaces.
+                        <ul>
+                            <li>
+                                Application state and functionality are divided into <b>Resources</b>.
+                            </li>
+                            <li>
+                                Resources are addressed as <b>URIs</b>.
+                            </li>
+                            <li>
+                                Resources are manipulated through their <b>representations</b>.
+                            </li>
+                            <li>
+                                Messages between the client and server are self-descriptive.
+                            </li>
+                            <li>
+                                Hypermedia As the Engine Of Application State (HATEOS).
+                            </li>
+                        </ul>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>Constraints</h3>
+                        Layered systems. Intermediaries may exist between clients and servers.
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>Constraints</h3>
+                        Code-on-demand. Clients gain extended functionality by code downloaded from servers.
+                    </section>
+                </section>
+                -->
+
+                <section data-background="img/slide-bg-2.jpg">
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>JAX-RS + JPA + EJB : the basics</h3>
+                        <p>
+                            Let's expose a <em>JPA entity</em> as a <em>REST resource</em>.
+                        </p>
+                        <pre>
+                            <code class="java" data-trim>
+@Entity
+public class Event {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id = null;
+
+    @Version
+    private int version = 0;
+
+    @Column
+    private String name;
+
+    // Getters, Setters, equals() and hashCode()
+    ...
+}
+                            </code>
+                        </pre>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>JAX-RS + JPA + EJB : the basics</h3>
+                        <h5>Creating new Events</h5>
+                        <pre>
+                            <code class="http" data-trim>
+POST /simple-event/rest/events HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json;charset=UTF-8
+...
+
+{"name":"JUDCON"}
+                            </code>
+                        </pre>
+                        <pre>
+                            <code class="http" data-trim>
+HTTP/1.1 201 Created
+Location: http://localhost:8080/simple-event/rest/events/1
+...
+                            </code>
+                        </pre>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>JAX-RS + JPA + EJB : the basics</h3>
+                        <h5>Fetching all Events</h5>
+                        <pre class="http">
+                            <code class="http" data-trim>
+GET /simple-event/rest/events HTTP/1.1
+Host: localhost:8080
+Accept: application/json, text/plain, */*
+...
+                            </code>
+                        </pre>
+                        <pre>
+                            <code class="http" data-trim>
+HTTP/1.1 200 OK
+Content-Type: application/json
+...
+[{"id":1,"version":0,"name":"JUDCON"}]
+                            </code>
+                        </pre>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>JAX-RS + JPA + EJB : the basics</h3>
+                        <h5>Fetching one specific Event</h5>
+                        <pre>
+                            <code class="http" data-trim>
+GET /simple-event/rest/events/1 HTTP/1.1
+Host: localhost:8080
+Accept: application/json, text/plain, */*
+...
+                            </code>
+                        </pre>
+                        <pre>
+                            <code class="http" data-trim>
+HTTP/1.1 200 OK
+Content-Type: application/json
+...
+
+{"id":1,"version":0,"name":"JUDCON"}
+                            </code>
+                        </pre>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>JAX-RS + JPA + EJB : the basics</h3>
+                        <h5>Updating an Event</h5>
+                        <pre>
+                            <code class="http" data-trim>
+PUT /simple-event/rest/events/1 HTTP/1.1
+Host: localhost:8080
+Accept: application/json, text/plain, */*
+...
+{"id":1,"version":0,"name":"JUDCON India"}
+                            </code>
+                        </pre>
+                        <pre>
+                            <code class="http" data-trim>
+HTTP/1.1 204 No Content
+...
+                            </code>
+                        </pre>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>JAX-RS + JPA + EJB : the basics</h3>
+                        <h5>Deleting an Event</h5>
+                        <pre>
+                            <code class="http" data-trim>
+DELETE /simple-event/rest/events/1 HTTP/1.1
+Host: localhost:8080
+Accept: application/json, text/plain, */*
+...
+                            </code>
+                        </pre>
+                        <pre>
+                            <code class="http" data-trim>
+HTTP/1.1 204 No Content
+...
+                            </code>
+                        </pre>
+                    </section>
+                </section>
+
+                <section data-background="img/slide-bg-2.jpg">
+                    <h3>Composite keys are not fun</h3>
+                    <p>
+                        Addressability suffers. Matrix parameters will help with composite keys.
+                    </p>
+                    <pre>
+                        <code class="http" data-trim>
+// Key for event = name, location
+GET /events;name=JUDCON;location=India
+                        </code>
+                    </pre>
+                    <ul>
+                        But ...
+                        <li>
+                            They're not a standard. Just a W3C design note.
+                        </li>
+                        <li>
+                            Lack of client support (but improving). Among popular JS libraries, only Dojo, <del>AngularJS</del>, <del>Backbone.js</del> has support.
+                        </li>
+                        <li>
+                            If cheap, establish a mapping scheme for composite keys.
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>Relationships</h3>
+                        <p>
+                            Handling modifications to relationships in JPA entities can get difficult.
+                        </p>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>Create a new Event</h3>
+                        <pre>
+                            <code class="http" data-trim>
+POST /bidi-event/rest/events HTTP/1.1
+Host: localhost:8080
+Accept: application/json, text/plain, */*
+...
+
+{"name":"JUDCON","location":"Bangalore"}
+                            </code>
+                        </pre>
+                        <pre>
+                            <code class="http" data-trim>
+HTTP/1.1 201 Created
+Location: http://localhost:8080/bidi-event/rest/events/1
+...
+                            </code>
+                        </pre>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>Fetch an existing Event</h3>
+                        <pre>
+                            <code class="http" data-trim>
+GET /bidi-event/rest/events/1 HTTP/1.1
+Host: localhost:8080
+Accept: application/json, text/plain, */*
+...
+                            </code>
+                        </pre>
+                        <pre>
+                            <code class="http" data-trim>
+HTTP/1.1 200 OK
+Content-Type: application/json
+...
+{"id":1,"version":0,"name":"JUDCON","location":"Bangalore","sessions":[]}
+                            </code>
+                        </pre>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>Create a new Session</h3>
+                        <pre>
+                            <code class="http" data-trim>
+POST /bidi-event/rest/sessions HTTP/1.1
+Host: localhost:8080
+Accept: application/json, text/plain, */*
+
+{
+    "sessionName":"Aerogear",
+    "speaker":"Sebastian",
+    "event":{"id":1,
+            "version":0,
+            "name":"JUDCON",
+            "location":"Bangalore",
+            "sessions":[]}
+}
+                            </code>
+                        </pre>
+                        <pre>
+                            <code class="http" data-trim>
+HTTP/1.1 201 Created
+Location: http://localhost:8080/bidi-event/rest/sessions/2
+...
+                            </code>
+                        </pre>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>Fetch the newly created Session</h3>
+                        <pre>
+                            <code class="http" data-trim>
+GET /bidi-event/rest/sessions/2 HTTP/1.1
+Host: localhost:8080
+Accept: application/json, text/plain, */*
+...
+                            </code>
+                        </pre>
+                        <pre>
+                            <code class="http" data-trim>
+HTTP/1.1 500 Internal Server Error
+Content-Type: text/html;charset=utf-8
+
+JBWEB000065: HTTP Status 500 - org.codehaus.jackson.map.JsonMappingException:
+failed to lazily initialize a collection of role: com.example.bidievent.model.Event.sessions, could not initialize proxy -
+no Session (through reference chain: com.example.bidievent.model.Session["event"]->com.example.bidievent.model.Event["sessions"])
+                            </code>
+                        </pre>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>What just happened?</h3>
+                        <ul class="nolist">
+                            <li>
+                                <code>Event.sessions</code> is lazily fetched.
+                            </li>
+                            <li>
+                                During serialization, the proxy does not find an active session.
+                            </li>
+                            <li>
+                                Let's try and solve this crudely, using eager fetching ...
+                            </li>
+                        </ul>
+                        <pre>
+                            <code class="json" data-trim>
+{"id":2,"version":0,"sessionName":"Aerogear","speaker":"Sebastian","event":{"id":1,"version":0,"name":"JUDCON","location":"Bangalore","sessions":
+[{"id":2,"version":0,"sessionName":"Aerogear","speaker":"Sebastian","event":{"id":1,"version":0,"name":"JUDCON","location":"Bangalore","sessions":
+[{"id":2,"version":0,"sessionName":"Aerogear","speaker":"Sebastian","event":{"id":1,"version":0,"name":"JUDCON","location":"Bangalore","sessions":
+...
+// This never terminates
+                            </code>
+                        </pre>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>How do you solve this ?</h3>
+                        <ul>
+                            <li>
+                                If you can, do not expose collection members of JPA entities directly.
+                                <p>
+                                    Use sub-resources for dependent collections (1:M).
+                                </p>
+                            </li>
+                            <li>
+                                Use a mapping layer. Create <em>Representation</em> classes to map JPA object graphs.
+                                <p>
+                                    The mappings translate RESTful actions into operations in the domain model.
+                                </p>
+                            </li>
+                            <li>
+                                Or, use different representations of the same JPA entity for different operations (not a good idea).
+                                <p>
+                                    One to create an entity with collections, another to update only the entity.
+                                </p>
+                            </li>
+                            <li>
+                                Model collections as a separate resource.
+                                <p>
+                                    Makes sense for M:N relationships.
+                                </p>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>java.sql.* hates you</h3>
+                        <ul>
+                            Consider the following
+                            <pre>
+                                <code class="java" data-trim>
+@Temporal(TemporalType.TIME)
+java.util.Date startTime;
+                                </code>
+                            </pre>
+                            <li>
+                                During serialization, <code>startTime</code>'s type is <code>java.sql.Time</code>.
+                            </li>
+                            <li>
+                                Given a value of 2:00 PM IST, the field will be serialized as <code>{"startTime":"14:00:00"}</code>.
+                            </li>
+                            <li>
+                                When deserializing back, <code>{"startTime":"1970-01-01T14:00:00.000+05:30"}</code> should be supplied.
+                            </li>
+                        </ul>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>java.sql.* hates you</h3>
+                        <p>
+                            Before, we discuss solutions, let's talk about:
+                            <ul>
+                                <li>
+                                    ISO8601 vs Unix timestamps. Which one to use ?
+                                    <p>
+                                        The former is almost always better.
+                                    </p>
+                                </li>
+                                <li>
+                                    Date, time and timestamp formats. Omit unnecessary info in ISO8601 formats (like time values for Dates).
+                                </li>
+                            </ul>
+                        </p>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h3>java.sql.* hates you</h3>
+                        <ul>
+                            Lessons learnt -
+                            <li>
+                                Be aware of the actual types of the objects during serialization and deserialization.
+                            </li>
+                            <li>
+                                Constrain the actual types and hence the serializers/deserializers used.
+                            </li>
+                            <li>
+                                When writing custom serializers, design them for class hierarchies.
+                                <p>
+                                    Think of the <em>equals()</em> contract, but for serialized forms.
+                                </p>
+                            </li>
+                            <li>
+                                And of course, avoid java.util.Date/Calendar. Use specific types in Joda-Time and eventually JSR-310 (Java 8).
+                                <p>
+                                    Using a specific type binds a serializer + deserializer to the field.
+                                </p>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section data-background="img/slide-bg-2.jpg">
+                    <h3>Bean Validation and Violation reporting</h3>
+                    <ul>
+                        <li>
+                            Responses for Constraint violation errors on JPA entities are not standardized.
+                        </li>
+                        <li>
+                            By default, HTML responses will be provided if no <code>ExceptionMappers</code> exist for <code>ConstraintViolationExceptions</code>.
+                        </li>
+                        <li>
+                            Bean Validation for request parameters is available out-of-the-box, but requires activation.
+                        </li>
+                        <li>
+                            RESTEasy has one format, Jersey has another.
+                        </li>
+                    </ul>
+                </section>
+
+                <section data-background="img/slide-bg-2.jpg">
+                    <h2>Questions ?</h2>
+                </section>
+
+                <section data-background="img/slide-bg-1.jpg">
+
+                </section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

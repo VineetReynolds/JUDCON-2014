@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>JBoss Forge - Breaking new ground in developer productivity</title>
+
+		<meta name="description" content="A framework for rapid application development unlike others">
+		<meta name="author" content="Vineet Reynolds L P">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/judcon.css" id="theme">
+        <link rel="stylesheet" href="css/custom.css">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section data-background="img/slide-bg-1.jpg">
+
+                </section>
+
+                <section data-background="img/slide-bg-2.jpg">
+					<h1>JBoss Forge</h1>
+					<h3>Breaking new ground in developer productivity</h3>
+					<p>
+						<small>By <a href="https://github.com/VineetReynolds/">Vineet Reynolds L P</a> / <a href="http://twitter.com/VineetReynolds">@VineetReynolds</a></small>
+					</p>
+                    <p>
+                        <small>Senior Software Engineer</small>
+                    </p>
+                    <p>
+                        <small>JBoss Developer Experience, Red Hat</small>
+                    </p>
+				</section>
+
+                <section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h2>Agenda</h2>
+                        <ul>
+                            <li>
+                                What is JBoss Forge ?
+                                <ul>
+                                    <li>Let's see why we need this.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Is it suitable for everybody ?
+                                <ul>
+                                    <li>You're a beginner and you want a tool that helps you make fewer mistakes.</li>
+                                    <li>You're a pro and you want a tool that automates away the trivial bits.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h2>Agenda</h2>
+                        <ul>
+                            <li>
+                                Can you extend it to suit your needs ?
+                                <ul>
+                                    <li>You have unique needs.</li>
+                                    <li>Your company has unique needs.</li>
+                                    <li>Your customers have unique needs.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h2>Let's talk about productivity...</h2>
+                    </section>
+
+                    <section data-background="img/6322092360_b5ce3a9d83_b.jpg">
+                        <blockquote>
+                            <p>
+                                Every one wants development to be like simple.
+                            </p>
+                            <p>
+                                Some expect to learn one language, a few APIs, maybe one framework, and meet all demands with a limited set of primitives.
+                            </p>
+                        </blockquote>
+                    </section>
+                    <section data-background="img/9620369338_3438a8e3d0_b.jpg">
+                        <blockquote>
+                            <p>
+                                But in reality - One language is hardly sufficient. APIs are numerous. Frameworks are dime a dozen.
+                            </p>
+                            <p>
+                                And it takes time to discover best practices relevant to your development stack.
+                            </p>
+                        </blockquote>
+                    </section>
+                    <section data-background="img/5248624748_885057e7a5_b.jpg">
+                        <blockquote>
+                            <p>
+                                Achieving expertise is not easy. It takes time.
+                            </p>
+                            <p>
+                                Scaling expertise across teams is even tougher.
+                            </p>
+                        </blockquote>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h2>Speaking of Forge...</h2>
+                        <ul>
+                            <li>It is a tool to aid in automation of repetitive tasks.</li>
+                            <li>It helps in generation of boilerplate code.</li>
+                            <li>It is available as an Eclipse plugin and a standalone shell (for now).</li>
+                        </ul>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h2>Install as an Eclipse plugin</h2>
+                        <a class="image" href="http://download.jboss.org/jbosstools/builds/staging/jbosstools-forge_master/all/repo/" target="_blank">
+                            <img width="320" height="299" src="img/qrcode.png" alt="Install JBossTools-Forge">
+                        </a>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h2>Download and get started with the CLI tool</h2>
+                        <a class="image" href="https://repository.jboss.org/nexus/service/local/repositories/releases/content/org/jboss/forge/forge-distribution/2.0.0.Final/forge-distribution-2.0.0.Final.zip" target="_blank">
+                            <img width="320" height="299" src="img/qrcode-cli.png" alt="Download the Forge 2 CLI">
+                        </a>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-background="img/3743235527_eed35ccb71_o.png">
+                        <blockquote>
+                            <h1>Forge in Action</h1>
+                            Create a project
+                        </blockquote>
+                    </section>
+                    <section data-background="img/3901150974_2693a76db9_o.png">
+                        <blockquote>
+                            <h1>Forge in Action</h1>
+                            Setup JPA, CDI, BV etc.
+                        </blockquote>
+                    </section>
+                    <section data-background="img/4680568796_b5fa0c2885_o.png">
+                        <blockquote>
+                            <h1>Forge in Action</h1>
+                            Scaffold the app
+                        </blockquote>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h2>Looking back...</h2>
+                        <ul>
+                            <li>
+                                Forge commands surpass Maven archetypes or similar solutions.
+                            </li>
+                            <li>
+                                Forge is not constrained to any framework.
+                            </li>
+                            <li>
+                                It offers productivity to beginners (IDE users) and experts (shell users) alike.
+                            </li>
+                            <li>
+                                It provides 'sugar' at a higher level than language constructs.
+                                <p>
+                                    Productivity is not limited by requiring you to be aware of "syntactic sugar".
+                                </p>
+                            </li>
+                        </ul>
+                    </section>
+                    <section data-background="img/slide-bg-2.jpg">
+                        <h2>Looking back...</h2>
+                        <ul>
+                            <li>
+                                It provides a safety net for beginners.
+                                <p>
+                                    Forge commands provide reproducible results.
+                                </p>
+                            </li>
+                            <li>
+                                It allows knowledge to be 'crystallized' into executable code.
+                                <p>
+                                    Experts can share standardized solution patterns with beginners.
+                                </p>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section data-background="img/2713475713_392003b2da_o.jpg">
+                    <blockquote>
+                        <h1>Forge in Action</h1>
+                        Write your own addons
+                    </blockquote>
+                </section>
+
+                <section data-background="img/slide-bg-2.jpg">
+                    <h2>Takeaway points</h2>
+                    <ul>
+                        <li>Forge automates common development tasks, out of the box.</li>
+                        <li>You can extend it to solve your problems.</li>
+                        <li>It provides a simple programming model to enable this.</li>
+                        <li>And it does this without constraining you to a specific environment.</li>
+                    </ul>
+                </section>
+
+				<section data-background="img/slide-bg-2.jpg">
+					<h1>Questions ?</h1>
+                    <em>
+                        You don't have a question yet. How do you get in touch later?
+                    </em>
+                    <ul>
+                        <li>The F2 source + dev guides: <a href="http://github.com/forge/core">http://github.com/forge/core</a></li>
+                        <li>The Forge site: <a href="http://forge.jboss.org">http://forge.jboss.org</a></li>
+                        <li>The forums: <a href="http://community.jboss.org/en/forge">http://community.jboss.org/en/forge</a></li>
+                        <li>email: <a href="mailto:forge-users@lists.jboss.org">forge-users@lists.jboss.org</a></li>
+                        <li>email (For contributors): <a href="mailto:forge-dev@lists.jboss.org">forge-dev@lists.jboss.org</a></li>
+                        <li>Twitter: <a href="http://twitter.com/JBossForge">@JBossForge</a></li>
+                    </ul>
+				</section>
+
+                <section data-background="img/slide-bg-2.jpg">
+                    <h3>Credits</h3>
+                    <ul class="nolist">
+                        <li>
+                            <small><a href="http://www.flickr.com/photos/seattlemunicipalarchives/3743235527/">Survey crew, 1952</a> by <a href="http://www.flickr.com/photos/seattlemunicipalarchives/">Seattle Municipal Archives</a>, used under CC BY 2.0</small>
+                        </li>
+                        <li>
+                            <small><a href="http://www.flickr.com/photos/seattlemunicipalarchives/3901150974/">Lake Forest Park Reservoir under construction, 1962</a> by <a href="http://www.flickr.com/photos/seattlemunicipalarchives/">Seattle Municipal Archives</a>, used under CC BY 2.0</small>
+                        </li>
+                        <li>
+                            <small><a href="http://www.flickr.com/photos/seattlemunicipalarchives/4680568796/">Municipal building under construction, 1961</a> by <a href="http://www.flickr.com/photos/seattlemunicipalarchives/">Seattle Municipal Archives</a>, used under CC BY 2.0 / Cropped from original</small>
+                        </li>
+                        <li>
+                            <small><a href="http://www.flickr.com/photos/seattlemunicipalarchives/2713475713/">Engineer working on plans for Lake Union area, circa 1960s</a> by <a href="http://www.flickr.com/photos/seattlemunicipalarchives/">Seattle Municipal Archives</a>, used under CC BY 2.0</small>
+                        </li>
+                        <li>
+                            <small><a href="http://www.flickr.com/photos/kingbob86/5248624748/">RAAF History</a> by <a href="http://www.flickr.com/photos/kingbob86/">Timothy Swinson</a>, used under CC BY / Desaturated from original</small>
+                        </li>
+                        <li>
+                            <small><a href="http://www.flickr.com/photos/amphalon/6322092360/">Human ornithopter</a> by <a href="http://www.flickr.com/photos/amphalon/">Tom Wigley</a>, used under CC BY-NC-SA 2.0</small>
+                        </li>
+                        <li>
+                            <small><a href="http://www.flickr.com/photos/criminalintent/9620369338/">Cockpit of a Concorde supersonic passenger jet</a> by <a href="http://www.flickr.com/photos/criminalintent/">Lars Plougmann</a>, used under CC BY-SA 2.0</small>
+                        </li>
+                    </ul>
+                </section>
+
+                <section data-background="img/slide-bg-1.jpg">
+
+                </section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

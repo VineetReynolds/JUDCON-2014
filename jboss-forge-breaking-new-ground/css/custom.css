@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+/* Override the provided reveal.js background styling to stretch the background to fit viewport dimensions. */
+.reveal .slide-background {
+    background-size: 100% 100%;
+}
+
+/* Style blockquote background and text colors differently */
+.reveal blockquote {
+    background: rgba(0,0,0,.7);
+    color: #ffffff;
+}
+
+ul.nolist {
+    list-style: none;
+}
